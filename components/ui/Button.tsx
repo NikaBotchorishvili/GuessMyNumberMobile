@@ -12,14 +12,25 @@ type Props = {
 	label: string;
 	onPress: () => void;
 	style?: ViewStyle;
+	disabled?: boolean;
 };
 
-const Button: React.FC<Props> = ({ label, onPress, style }) => {
+const Button: React.FC<Props> = ({
+	label,
+	onPress,
+	style,
+	disabled = false,
+}) => {
 	return (
-		<Pressable style={({pressed}) => [
-			styles.button,
-			pressed && styles.buttonPressed,
-		]}>
+		<Pressable
+			onPress={onPress}
+			style={({ pressed }) => [
+				styles.button,
+				pressed && styles.buttonPressed,
+				style,
+			]}
+			disabled={disabled}
+		>
 			<Text style={styles.buttonText}>{label}</Text>
 		</Pressable>
 	);
@@ -37,11 +48,11 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		color: Colors.white,
-        fontWeight: "bold",
-        fontSize: 25,
-        textAlign: "center"
+		fontWeight: "bold",
+		fontSize: 25,
+		textAlign: "center",
 	},
 	buttonPressed: {
 		opacity: 0.5,
-	}
+	},
 });
