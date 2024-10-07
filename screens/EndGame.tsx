@@ -22,8 +22,12 @@ const EndGame = () => {
 
 			<View style={styles.resultContainer}>
 				<Text style={styles.resultText}>
-					Your phone needed {computerGuesses.length} rounds to guess
-					the number {pickedNumber}
+					Your phone needed{" "}
+					<Text style={styles.highlightedText}>
+						{computerGuesses.length}
+					</Text>{" "}
+					rounds to guess the number{" "}
+					<Text style={styles.highlightedText}>{pickedNumber}</Text>
 				</Text>
 				<Button
 					onPress={handleNewGame}
@@ -69,6 +73,11 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		fontSize: 20,
 		letterSpacing: 2,
+		fontWeight: "bold",
+	},
+	highlightedText: {
+		color: Colors.secondary,
+		fontWeight: "bold",
 	},
 });
 
