@@ -93,10 +93,6 @@ export const Provider: React.FC<Props> = ({ children }) => {
 		setRange((prev) => {
 			return { ...prev, lowerThan: computerGuess };
 		});
-		console.log(`Clicked lower than. Range:`, {
-			...range,
-			lowerThan: computerGuess,
-		});
 	};
 
 	const handleHigherThan = () => {
@@ -114,11 +110,6 @@ export const Provider: React.FC<Props> = ({ children }) => {
 		setRange((prev) => {
 			return { ...prev, higherThan: computerGuess };
 		});
-		console.log(`Clicked higher than. Range:`, {
-			...range,
-			higherThan: computerGuess,
-		});
-		// Removed handleComputerGuess call
 	};
 
 	const handleNewGame = () => {

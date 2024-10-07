@@ -11,7 +11,10 @@ const StartGame = () => {
 		useContext(context);
 	return (
 		<View style={styles.mainContainer}>
-			<Title>Guess my number</Title>
+			<Title style={{ fontFamily: "Roboto_700Bold" }}>
+				Guess my number
+			</Title>
+
 			<Card>
 				<View style={styles.inputContainer}>
 					<Text style={styles.inputLabel}>Enter a number</Text>
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
 	inputLabel: {
 		color: Colors.secondary,
 		fontSize: 25,
-		fontWeight: "bold",
+		fontFamily: "Roboto_700Bold",
 	},
 	input: {
 		borderColor: Colors.secondary,

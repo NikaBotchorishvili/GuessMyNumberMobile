@@ -8,13 +8,12 @@ type Props = {
 };
 
 const Title: React.FC<Props> = ({ children, style }) => {
-	return <Text style={{ ...styles.title, ...style }}>{children}</Text>;
+	return <Text style={[styles.title, style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 30,
-		fontWeight: "bold",
 		padding: 15,
 		borderColor: Colors.secondary,
 		borderWidth: 1,
