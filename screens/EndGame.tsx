@@ -6,38 +6,45 @@ import context from "../context/GameState";
 
 import Constants from "expo-constants";
 import Button from "../components/ui/Button";
+import Confetti from "../components/ui/Confetti";
 
 const EndGame = () => {
 	const { pickedNumber, computerGuesses, handleNewGame } =
 		useContext(context);
 	return (
-		<View style={styles.container}>
-			<Title style={{ color: Colors.white, borderColor: Colors.white }}>
-				GAME OVER!
-			</Title>
-			<Image
-				style={styles.image}
-				source={require("../assets/success.png")}
-			/>
-
-			<View style={styles.resultContainer}>
-				<Text style={styles.resultText}>
-					Your phone needed{" "}
-					<Text style={styles.highlightedText}>
-						{computerGuesses.length}
-					</Text>{" "}
-					rounds to guess the number{" "}
-					<Text style={styles.highlightedText}>{pickedNumber}</Text>
-				</Text>
-				<Button
-					onPress={handleNewGame}
-					disabled={false}
-					style={{ alignSelf: "center", paddingHorizontal: 20 }}
+		<>
+			<View style={styles.container}>
+				<Title
+					style={{ color: Colors.white, borderColor: Colors.white }}
 				>
-					<Text style={styles.buttonText}>Start new game</Text>
-				</Button>
+					GAME OVER!
+				</Title>
+				<Image
+					style={styles.image}
+					source={require("../assets/success.png")}
+				/>
+
+				<View style={styles.resultContainer}>
+					<Text style={styles.resultText}>
+						Your phone needed{" "}
+						<Text style={styles.highlightedText}>
+							{computerGuesses.length}
+						</Text>{" "}
+						rounds to guess the number{" "}
+						<Text style={styles.highlightedText}>
+							{pickedNumber}
+						</Text>
+					</Text>
+					<Button
+						onPress={handleNewGame}
+						disabled={false}
+						style={{ alignSelf: "center", paddingHorizontal: 20 }}
+					>
+						<Text style={styles.buttonText}>Start new game</Text>
+					</Button>
+				</View>
 			</View>
-		</View>
+		</>
 	);
 };
 

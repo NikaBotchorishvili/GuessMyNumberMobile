@@ -14,18 +14,21 @@ export const Provider: React.FC<Props> = ({ children }) => {
 		lowerThan: 99,
 	});
 	const [gameState, setGameState] = useState<GameStates>("start");
+
+	// 	This useEffect checks if the computer has guessed the number
 	useEffect(() => {
 		if (pickedNumber !== undefined && computerGuess === pickedNumber) {
 			setGameState("end");
 		}
 	}, [computerGuess, pickedNumber, computerGuesses.length]);
 
-	// Computer guess logic
+	// This useEffect handles the main game logic which gives "computer" functionality to guess the number
 	useEffect(() => {
 		if (gameState === "in progress") {
 			handleComputerGuess(range);
 		}
 	}, [range, gameState]);
+
 	const resetHandler = () => {
 		setEnteredValue(undefined);
 	};

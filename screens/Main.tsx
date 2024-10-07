@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import { ImageBackground, StyleSheet } from "react-native";
@@ -8,13 +8,12 @@ import StartGame from "./StartGame";
 import Game from "./Game";
 import context from "../context/GameState";
 import EndGame from "./EndGame";
+import Confetti from "../components/ui/Confetti";
 
 const Main = () => {
-	const { pickedNumber, computerGuess, range, gameState } =
-		useContext(context);
+	const { gameState } = useContext(context);
 
 	let screen = <StartGame />;
-
 	if (gameState === "in progress") {
 		screen = <Game />;
 	} else if (gameState === "end") {
@@ -25,6 +24,7 @@ const Main = () => {
 			colors={[Colors.primary, Colors.primaryForeground]}
 			style={styles.container}
 		>
+			{gameState === "end" && <Confetti count={50} />}
 			<ImageBackground
 				source={require("../assets/background.png")}
 				style={styles.image}
