@@ -9,14 +9,14 @@ import {
 import Colors from "../../style/colors";
 
 type Props = {
-	label: string;
+	children: React.ReactNode;
 	onPress: () => void;
 	style?: ViewStyle;
 	disabled?: boolean;
 };
 
 const Button: React.FC<Props> = ({
-	label,
+	children,
 	onPress,
 	style,
 	disabled = false,
@@ -31,7 +31,7 @@ const Button: React.FC<Props> = ({
 			]}
 			disabled={disabled}
 		>
-			<Text style={styles.buttonText}>{label}</Text>
+			{children}
 		</Pressable>
 	);
 };
@@ -46,12 +46,7 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		borderRadius: 10,
 	},
-	buttonText: {
-		color: Colors.white,
-		fontWeight: "bold",
-		fontSize: 25,
-		textAlign: "center",
-	},
+
 	buttonPressed: {
 		opacity: 0.5,
 	},

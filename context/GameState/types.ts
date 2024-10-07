@@ -15,6 +15,8 @@ export type Context = {
 	handleHigherThan: () => void;
 	handleLowerThan: () => void;
 	gameState: GameStates;
+	setGameState: (value: GameStates) => void;
+	handleNewGame: () => void;
 };
 
 export type Range = {

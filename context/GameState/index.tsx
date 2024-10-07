@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 import { Alert } from "react-native";
 import { Context, Props, Range, GameStates } from "./types";
@@ -19,6 +19,8 @@ const context = createContext<Context>({
 	handleHigherThan: () => {},
 	handleLowerThan: () => {},
 	gameState: "start",
+	setGameState: () => {},
+	handleNewGame: () => {},
 });
 
 export const Provider: React.FC<Props> = ({ children }) => {
@@ -33,15 +35,14 @@ export const Provider: React.FC<Props> = ({ children }) => {
 	const [gameState, setGameState] = useState<GameStates>("start");
 	useEffect(() => {
 		if (pickedNumber !== undefined && computerGuess === pickedNumber) {
-			Alert.alert(
-				"Computer guessed the number",
-				`Computer guessed the number in ${computerGuesses.length} guesses`,
-				[{ text: "Okay", style: "destructive", onPress: resetHandler }]
-			);
-			console.log("Computer guessed the number");
 			setGameState("end");
 		}
 	}, [computerGuess, pickedNumber, computerGuesses.length]);
+	useEffect(() => {
+		if (gameState === "in progress") {
+			handleComputerGuess(range);
+		}
+	}, [range.higherThan, range.lowerThan, gameState]);
 	const resetHandler = () => {
 		setEnteredValue(undefined);
 	};
@@ -60,26 +61,36 @@ export const Provider: React.FC<Props> = ({ children }) => {
 
 		setPickedNumber(enteredValue);
 		setGameState("in progress");
-		handleComputerGuess();
+		setEnteredValue(undefined);
 	};
 
-	const handleComputerGuess = () => {
-		if (computerGuess) {
-			setComputerGuesses((prev) => {
-				return [...prev, computerGuess];
-			});
-		}
+	const handleComputerGuess = useCallback(
+		(currentRange: Range) => {
+			const min = currentRange.higherThan + 1;
+			const max = currentRange.lowerThan - 1;
 
-		setComputerGuess(() => {
-			let min = range.higherThan;
-			let max = range.lowerThan;
+			try {
+				const randNum = generateRandomBetween(
+					min,
+					max,
+					computerGuesses
+				);
 
-			const randNum = generateRandomBetween(min, max, computerGuesses);
+				setComputerGuesses((prev) => [...prev, randNum]);
 
-			// Generate the new computer guess within the range [min, max]
-			return randNum;
-		});
-	};
+				setComputerGuess(randNum);
+			} catch (error) {
+				Alert.alert("Error", (error as Error).message, [
+					{
+						text: "Okay",
+						style: "destructive",
+						onPress: resetHandler,
+					},
+				]);
+			}
+		},
+		[computerGuesses]
+	);
 
 	const handleLowerThan = () => {
 		if (!pickedNumber) return;
@@ -96,7 +107,10 @@ export const Provider: React.FC<Props> = ({ children }) => {
 		setRange((prev) => {
 			return { ...prev, lowerThan: computerGuess };
 		});
-		handleComputerGuess();
+		console.log(`Clicked lower than. Range:`, {
+			...range,
+			lowerThan: computerGuess,
+		});
 	};
 
 	const handleHigherThan = () => {
@@ -110,10 +124,23 @@ export const Provider: React.FC<Props> = ({ children }) => {
 			);
 			return;
 		}
+
 		setRange((prev) => {
 			return { ...prev, higherThan: computerGuess };
 		});
-		handleComputerGuess();
+		console.log(`Clicked higher than. Range:`, {
+			...range,
+			higherThan: computerGuess,
+		});
+		// Removed handleComputerGuess call
+	};
+
+	const handleNewGame = () => {
+		setComputerGuess(0);
+		setComputerGuesses([]);
+		setPickedNumber(undefined);
+		setRange({ higherThan: 1, lowerThan: 99 });
+		setGameState("start");
 	};
 
 	return (
@@ -134,6 +161,8 @@ export const Provider: React.FC<Props> = ({ children }) => {
 				handleHigherThan: handleHigherThan,
 				handleLowerThan: handleLowerThan,
 				gameState: gameState,
+				setGameState: (value: GameStates) => setGameState(value),
+				handleNewGame: handleNewGame,
 			}}
 		>
 			{children}

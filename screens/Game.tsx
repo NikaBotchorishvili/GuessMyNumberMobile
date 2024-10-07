@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import Title from "../components/ui/Title";
 import Colors from "../style/colors";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import context from "../context/GameState";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Game = () => {
 	const {
@@ -38,24 +39,36 @@ const Game = () => {
 				<Text style={styles.header}>Higher or lower?</Text>
 
 				<View style={styles.actionsContainer}>
-					<Button
-						label="-"
-						style={styles.button}
-						onPress={handleLowerThan}
-					/>
-					<Button
-						label="+"
-						style={styles.button}
-						onPress={handleHigherThan}
-					/>
+					<Button style={styles.button} onPress={handleLowerThan}>
+						<Ionicons
+							style={{ textAlign: "center" }}
+							name="remove-circle"
+							size={24}
+							color="white"
+						/>
+					</Button>
+					<Button style={styles.button} onPress={handleHigherThan}>
+						<Ionicons
+							style={{ textAlign: "center" }}
+							name="add-circle"
+							size={24}
+							color="white"
+						/>
+					</Button>
 				</View>
 			</Card>
-
-			{computerGuesses.map((guess, index) => (
-				<Card>
-					<Text>Computer Guessed {guess}</Text>
-				</Card>
-			))}
+			<FlatList
+				style={{ gap: 20 }}
+				ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+				renderItem={({ item }) => (
+					<Card>
+						<Text style={styles.guessText}>
+							Computer Guessed {item}
+						</Text>
+					</Card>
+				)}
+				data={computerGuesses}
+			/>
 		</View>
 	);
 };
@@ -79,6 +92,11 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		flex: 1,
+	},
+	guessText: {
+		color: Colors.white,
+		fontSize: 20,
+		textAlign: "center",
 	},
 });
 

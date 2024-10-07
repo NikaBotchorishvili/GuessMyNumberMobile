@@ -26,15 +26,17 @@ const StartGame = () => {
 
 				<View style={styles.actionsContainer}>
 					<Button
-						label="Reset"
 						style={{ flex: 1, alignSelf: "flex-start" }}
 						onPress={resetHandler}
-					/>
+					>
+						<Text style={styles.buttonText}>Reset</Text>
+					</Button>
 					<Button
-						label="Confirm"
 						style={{ flex: 1, alignSelf: "flex-start" }}
 						onPress={confirmHandler}
-					/>
+					>
+						<Text style={styles.buttonText}>Confirm</Text>
+					</Button>
 				</View>
 			</Card>
 		</View>
@@ -72,5 +74,11 @@ const styles = StyleSheet.create({
 	},
 	inputContainer: {
 		alignItems: "center",
+	},
+	buttonText: {
+		color: Colors.white,
+		fontWeight: "bold",
+		fontSize: 25,
+		textAlign: "center",
 	},
 });
